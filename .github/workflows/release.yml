@@ -1,0 +1,67 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'release/*'
+
+permissions:
+  contents: read
+
+env:
+  DOCKER_REGISTRY: ghcr.io/linkerd
+
+jobs:
+  tag:
+    timeout-minutes: 3
+    runs-on: ubuntu-latest
+    steps:
+    - id: meta
+      shell: bash
+      run: |
+        shopt -s extglob
+        ref="${{ github.ref }}"
+        ver="${ref##refs/tags/release/}"
+        if [[ "$ver" != v+([0-9]).+([0-9]).+([0-9])?(-+([a-z0-9-])) ]]; then
+          echo "Invalid version: $ver" >&2
+          exit 1
+        fi
+        echo tag="$ver" >> "$GITHUB_OUTPUT"
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+
+  docker-build:
+    needs: [tag]
+    runs-on: ubuntu-20.04
+    permissions:
+      id-token: write # needed for signing the images with GitHub OIDC Token
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+    - name: Set tag
+      run: echo 'TAG=${{ needs.tag.outputs.tag }}' >> "$GITHUB_ENV"
+    - uses: ./.github/actions/docker-build
+      id: build
+      with:
+        docker-registry: ${{ env.DOCKER_REGISTRY }}
+        docker-target: multi-arch
+        docker-push: 1
+        docker-ghcr-username: ${{ secrets.DOCKER_GHCR_USERNAME }}
+        docker-ghcr-pat: ${{ secrets.DOCKER_GHCR_PAT }}
+        tag: ${{ needs.tag.outputs.tag }}
+    - uses: sigstore/cosign-installer@v2
+    - run: cosign sign '${{ steps.build.outputs.image }}'
+      env:
+        COSIGN_EXPERIMENTAL: 1
+
+  github:
+    needs: [tag, docker-build]
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+    - uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+      with:
+        name: linkerd-extension-init ${{ needs.tag.outputs.tag }}
