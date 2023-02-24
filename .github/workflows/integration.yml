@@ -1,0 +1,17 @@
+name: Integration tests
+
+on:
+  pull_request: {}
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 20
+    steps:
+    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+    - uses: linkerd/dev/actions/setup-tools@v39
+    - run: just build
+    - run: just integration-test
