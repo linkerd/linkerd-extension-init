@@ -13,11 +13,8 @@ inputs:
     description: Whether to push the built images to the registry
     required: false
     default: ''
-  docker-ghcr-username:
-    description: GH username under which to push images
-    required: false
-  docker-ghcr-pat:
-    description: GH PAT for docker-ghcr-username
+  docker-ghcr-token:
+    description: GH token with image publishing access
     required: false
   tag:
     description: Tag to use for the built image
@@ -43,7 +40,7 @@ runs:
       shell: bash
       run: |
         if [[ -n "${{ inputs.docker-push }}" ]];then
-          echo "${{ inputs.docker-ghcr-pat }}" | docker login ghcr.io -u "${{ inputs.docker-ghcr-username }}" --password-stdin
+          echo "${{ inputs.docker-ghcr-token }}" | docker login ghcr.io -u $ --password-stdin
         fi
         just build-image ${{ inputs.docker-registry }} ${{ inputs.tag }}
 

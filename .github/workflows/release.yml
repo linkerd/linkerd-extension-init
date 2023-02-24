@@ -46,8 +46,7 @@ jobs:
         docker-registry: ${{ env.DOCKER_REGISTRY }}
         docker-target: multi-arch
         docker-push: 1
-        docker-ghcr-username: ${{ secrets.DOCKER_GHCR_USERNAME }}
-        docker-ghcr-pat: ${{ secrets.DOCKER_GHCR_PAT }}
+        docker-ghcr-token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ needs.tag.outputs.tag }}
     - uses: sigstore/cosign-installer@v2
     - run: cosign sign '${{ steps.build.outputs.image }}'
