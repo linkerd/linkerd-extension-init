@@ -53,4 +53,4 @@ runs:
 outputs:
   image:
     description: The image that was built
-    value: ${{ inputs.docker-registry }}/linkerd-extension-init:${{ inputs.tag }}
+    value: ${{ inputs.docker-registry }}/extension-init:${{ inputs.tag }}

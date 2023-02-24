@@ -73,7 +73,7 @@ build-image registry tag:
       fi
     fi
 
-    docker buildx build . $cache_params $output_params -t "{{ registry }}/linkerd-extension-init:{{ tag }}"
+    docker buildx build . $cache_params $output_params -t "{{ registry }}/extension-init:{{ tag }}"
 
 # This tests that some namespace gets annotated as expected. The helm-upgrade
 # integration test in the linkerd2 repo tests this in the context of the
