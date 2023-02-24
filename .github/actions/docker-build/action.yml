@@ -49,7 +49,8 @@ runs:
 
     # Delete older docker images to prevent cache bloat.
     - uses: linkerd/dev/actions/setup-tools@v39
-    - run: just-dev prune-action-cache ${{ env.DOCKER_BUILDKIT_CACHE }}
+    - shell: bash
+      run: just-dev prune-action-cache ${{ env.DOCKER_BUILDKIT_CACHE }}
 
 outputs:
   image:
