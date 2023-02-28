@@ -598,9 +598,9 @@ dependencies = [
 
 [[package]]
 name = "kubert"
-version = "0.13.0"
+version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9d457fb44f5e08044ce60f0fab24396ed03dff6a5dca106e86d560356573c7ca"
+checksum = "11fd33a6cfc53c087537f849dc2d34b8f4ea68eca55b417125d41a9c3fe4a1a4"
 dependencies = [
  "thiserror",
  "tokio",
