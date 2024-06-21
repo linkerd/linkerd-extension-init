@@ -40,7 +40,13 @@ wildcards = "deny"
 highlight = "all"
 deny = []
 skip = [
-    { name = "base64", version = "0.13" },
+    { name = "base64" },
+    # Some dependencies still use indexmap v1.
+    { name = "indexmap", version = "1" },
+    { name = "hashbrown", version = "0.12" },
+    # https://github.com/hawkw/matchers/pull/4
+    { name = "regex-automata", version = "0.1" },
+    { name = "regex-syntax", version = "0.6" },
     { name = "syn", version = "1.0.109" },
 ]
 
