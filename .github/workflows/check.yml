@@ -22,7 +22,7 @@ jobs:
   fmt:
     timeout-minutes: 5
     runs-on: ubuntu-latest
-    container: ghcr.io/linkerd/dev:v39-rust
+    container: ghcr.io/linkerd/dev:v43-rust
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
       - run: just rs-check-fmt
@@ -30,7 +30,7 @@ jobs:
   clippy:
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    container: ghcr.io/linkerd/dev:v39-rust
+    container: ghcr.io/linkerd/dev:v43-rust
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
       - run: just rs-fetch
@@ -41,7 +41,7 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    container: ghcr.io/linkerd/dev:v39-rust
+    container: ghcr.io/linkerd/dev:v43-rust
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
       - run: just rs-fetch
