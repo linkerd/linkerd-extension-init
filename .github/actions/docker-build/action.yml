@@ -1,4 +1,5 @@
 name: Docker Build
+description: Builds linkerd's docker images
 
 inputs:
   docker-registry:
