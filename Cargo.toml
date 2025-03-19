@@ -16,13 +16,14 @@ openssl-vendored = ["openssl/vendored"]
 
 [dependencies]
 anyhow = "1"
-json-patch = "1"
-kubert = { version = "0.21", features = ["log"] }
-openssl = { version = "0.10", optional = true }
+json-patch = "3"
+jsonptr = "0.6"
+kubert = { version = "0.23", features = ["log"] }
+openssl = { version = "0.10.71", optional = true }
 serde = "1"
 serde_json = "1"
 serde_yaml = "0.9"
-thiserror = "1"
+thiserror = "2"
 tracing = "0.1"
 
 [dependencies.clap]
@@ -31,13 +32,13 @@ default-features = false
 features = ["derive", "help", "usage", "env", "std"]
 
 [dependencies.kube]
-version = "0.87"
+version = "0.98"
 default-features = false
 features = ["client", "jsonpatch", "rustls-tls"]
 
 [dependencies.k8s-openapi]
-version = "0.20"
-features = ["v1_22"]
+version = "0.24"
+features = ["v1_31"]
 
 [dependencies.tokio]
 version = "1"

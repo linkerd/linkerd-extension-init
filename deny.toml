@@ -12,7 +12,7 @@ yanked = "deny"
 ignore = []
 
 [licenses]
-allow = ["Apache-2.0", "ISC", "MIT"]
+allow = ["Apache-2.0", "ISC", "MIT", "BSD-3-Clause"]
 confidence-threshold = 0.8
 exceptions = [
     # The Unicode-3.0 license is necessary for unicode-ident because
@@ -44,7 +44,6 @@ wildcards = "deny"
 highlight = "all"
 deny = []
 skip = [
-    { name = "base64" },
     # https://github.com/hawkw/matchers/pull/4
     { name = "regex-automata", version = "0.1" },
     { name = "regex-syntax", version = "0.6" },

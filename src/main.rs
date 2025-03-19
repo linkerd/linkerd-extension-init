@@ -1,6 +1,7 @@
 use anyhow::{anyhow, Result};
 use clap::Parser;
 use json_patch::{AddOperation, PatchOperation::Add};
+use jsonptr::{ParseError, PointerBuf};
 use k8s_openapi::api::core::v1::{ConfigMap, Namespace};
 use kube::{
     api::{Api, Patch, PatchParams, ResourceExt},
@@ -94,7 +95,7 @@ async fn main() -> Result<()> {
         add_annotations_root,
         add_labels_root,
     };
-    let patch = ops.create_patch();
+    let patch = ops.create_patch()?;
     let params: PatchParams = PatchParams::apply(FIELD_MANAGER);
     time::timeout(
         WRITE_TIMEOUT,
@@ -124,32 +125,38 @@ async fn get_cni_enabled(client: Client, ns: &str) -> Result<bool> {
 }
 
 impl<'a> PatchOpts<'a> {
-    fn create_patch(&self) -> json_patch::Patch {
+    fn create_patch(&self) -> Result<json_patch::Patch> {
         let mut patches = Vec::new();
 
         if self.add_annotations_root {
             patches.push(Add(AddOperation {
-                path: "/metadata/annotations".to_string(),
+                path: PointerBuf::try_from("/metadata/annotations")?,
                 value: serde_json::json!({}),
             }));
         }
 
         if self.add_labels_root {
             patches.push(Add(AddOperation {
-                path: "/metadata/labels".to_string(),
+                path: PointerBuf::try_from("/metadata/labels")?,
                 value: serde_json::json!({}),
             }));
         }
 
-        self.prometheus_url.as_deref().into_iter().for_each(|url| {
-            patches.push(Add(AddOperation {
-                path: "/metadata/annotations/viz.linkerd.io~1external-prometheus".to_string(),
-                value: serde_json::Value::String(url.to_string()),
-            }));
-        });
+        self.prometheus_url
+            .as_deref()
+            .into_iter()
+            .try_for_each(|url| {
+                patches.push(Add(AddOperation {
+                    path: PointerBuf::try_from(
+                        "/metadata/annotations/viz.linkerd.io~1external-prometheus",
+                    )?,
+                    value: serde_json::Value::String(url.to_string()),
+                }));
+                Ok::<(), ParseError>(())
+            })?;
 
         patches.push(Add(AddOperation {
-            path: "/metadata/labels/linkerd.io~1extension".to_string(),
+            path: PointerBuf::try_from("/metadata/labels/linkerd.io~1extension")?,
             value: serde_json::Value::String(self.extension.to_string()),
         }));
 
@@ -160,13 +167,13 @@ impl<'a> PatchOpts<'a> {
         };
 
         patches.push(Add(AddOperation {
-            path: "/metadata/labels/pod-security.kubernetes.io~1enforce".to_string(),
+            path: PointerBuf::try_from("/metadata/labels/pod-security.kubernetes.io~1enforce")?,
             value: serde_json::Value::String(level.to_string()),
         }));
 
         debug!("patch to apply: {:?}", patches);
 
-        json_patch::Patch(patches)
+        Ok(json_patch::Patch(patches))
     }
 }
 
@@ -184,7 +191,7 @@ mod tests {
             add_annotations_root: false,
             add_labels_root: true,
         };
-        let patch = ops.create_patch();
+        let patch = ops.create_patch()?;
         let patch_str = serde_json::to_string(&patch)?;
         assert_eq!(
             patch_str,
@@ -222,7 +229,7 @@ mod tests {
             add_annotations_root: true,
             add_labels_root: false,
         };
-        let patch = ops.create_patch();
+        let patch = ops.create_patch()?;
         let patch_str = serde_json::to_string(&patch)?;
         assert_eq!(
             patch_str,
