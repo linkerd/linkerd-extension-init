@@ -27,15 +27,15 @@ runs:
     - name: Configure cache
       shell: bash
       run: echo "DOCKER_BUILDKIT_CACHE=${{ runner.temp }}/.buildx-cache" >> $GITHUB_ENV
-    - uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d
+    - uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf
       with:
         path: ${{ env.DOCKER_BUILDKIT_CACHE }}
         key: ${{ runner.os }}-buildx-linkerd-extension-init-${{ inputs.tag }}
         restore-keys: ${{ runner.os }}-buildx-linkerd-extension-init-
 
-    - uses: docker/setup-qemu-action@27d0a4f181a40b142cce983c5393082c365d1480
-    - uses: docker/setup-buildx-action@94ab11c41e45d028884a99163086648e898eed25
-    - uses: linkerd/dev/actions/setup-tools@v43
+    - uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392
+    - uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2
+    - uses: linkerd/dev/actions/setup-tools@v45
     - env:
         DOCKER_TARGET: ${{ inputs.docker-target }}
         DOCKER_PUSH: ${{ inputs.docker-push }}
@@ -47,7 +47,7 @@ runs:
         just build-image ${{ inputs.docker-registry }} ${{ inputs.tag }}
 
     # Delete older docker images to prevent cache bloat.
-    - uses: linkerd/dev/actions/setup-tools@v43
+    - uses: linkerd/dev/actions/setup-tools@v45
     - shell: bash
       run: just-dev prune-action-cache ${{ env.DOCKER_BUILDKIT_CACHE }}
 
