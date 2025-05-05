@@ -116,7 +116,7 @@ async fn get_cni_enabled(client: Client, ns: &str) -> Result<bool> {
     let values = data.get("values").ok_or(Error::ValuesNotFound)?;
     let values_yaml = serde_yaml::from_str(values)?;
     match values_yaml {
-        Value::Mapping(mapping) => match mapping.get(&Value::String("cniEnabled".to_string())) {
+        Value::Mapping(mapping) => match mapping.get(Value::String("cniEnabled".to_string())) {
             Some(Value::Bool(true)) => Ok(true),
             _ => Ok(false),
         },
@@ -124,7 +124,7 @@ async fn get_cni_enabled(client: Client, ns: &str) -> Result<bool> {
     }
 }
 
-impl<'a> PatchOpts<'a> {
+impl PatchOpts<'_> {
     fn create_patch(&self) -> Result<json_patch::Patch> {
         let mut patches = Vec::new();
 
@@ -214,8 +214,7 @@ mod tests {
     }
 ]
 "#
-            .replace('\n', "")
-            .replace(' ', "")
+            .replace(['\n', ' '], "")
         );
         Ok(())
     }
@@ -257,8 +256,7 @@ mod tests {
     }
 ]
 "#
-            .replace('\n', "")
-            .replace(' ', "")
+            .replace(['\n', ' '], "")
         );
         Ok(())
     }
