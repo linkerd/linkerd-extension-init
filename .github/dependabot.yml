@@ -8,7 +8,7 @@ updates:
       - dependency-type: "all"
 
   - package-ecosystem: github-actions
-    directores:
+    directories:
     - "/"
     - ".github/actions/*"
     schedule:
