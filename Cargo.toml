@@ -16,7 +16,7 @@ openssl-vendored = ["openssl/vendored"]
 
 [dependencies]
 anyhow = "1"
-json-patch = "3"
+json-patch = "4"
 jsonptr = "0.6"
 kubert = { version = "0.24", features = ["log"] }
 openssl = { version = "0.10.71", optional = true }
