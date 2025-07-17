@@ -9,17 +9,16 @@ homepage = "https://linkerd.io"
 repository = "https://github.com/linkerd/linkerd-extension-init"
 
 [features]
-default = ["openssl-tls", "openssl-vendored"]
-openssl-tls = ["kube/openssl-tls"]
+default = ["openssl-vendored"]
 # Vendor openssl to statically link lib
 openssl-vendored = ["openssl/vendored"]
 
 [dependencies]
 anyhow = "1"
-json-patch = "3"
-jsonptr = "0.6"
-kubert = { version = "0.24", features = ["log"] }
-openssl = { version = "0.10.71", optional = true }
+json-patch = "4"
+jsonptr = "0.7"
+kubert = { version = "0.25", features = ["log", "openssl-tls"] }
+openssl = { version = "0.10.71" }
 serde = "1"
 serde_json = "1"
 serde_yaml = "0.9"
@@ -32,13 +31,13 @@ default-features = false
 features = ["derive", "help", "usage", "env", "std"]
 
 [dependencies.kube]
-version = "0.98"
+version = "1.1"
 default-features = false
-features = ["client", "jsonpatch", "rustls-tls"]
+features = ["client", "jsonpatch", "openssl-tls"]
 
 [dependencies.k8s-openapi]
-version = "0.24"
-features = ["v1_31"]
+version = "0.25"
+features = ["v1_33"]
 
 [dependencies.tokio]
 version = "1"
