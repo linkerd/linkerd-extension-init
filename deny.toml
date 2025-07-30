@@ -24,11 +24,6 @@ exceptions = [
         "Apache-2.0",
         "Unicode-3.0",
     ], name = "unicode-ident" },
-    { allow = [
-        "ISC",
-        "Apache-2.0",
-        "OpenSSL"
-    ], name = "aws-lc-sys"}
 ]
 
 [[licenses.clarify]]
