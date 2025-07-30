@@ -6,6 +6,13 @@ COPY . .
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
     cargo fetch
 ARG TARGETARCH
+# Install cross compiler toolchains
+RUN case "$TARGETARCH" in \
+        amd64) true ;; \
+        arm64) apt-get -y update && apt-get install --no-install-recommends -y gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu ;; \
+    esac && rm -rf /var/lib/apt/lists/*
+
+ENV AWS_LC_SYS_CFLAGS_aarch64_unknown_linux_musl='-fuse-ld=/usr/aarch64-linux-gnu/bin/ld'
 RUN --mount=type=cache,target=target \
     --mount=type=cache,target=/usr/local/cargo/registry \
     target=$(case "$TARGETARCH" in \
