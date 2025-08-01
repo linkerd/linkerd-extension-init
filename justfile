@@ -10,7 +10,7 @@ rs-features := 'all'
 
 _cargo := "cargo" + if rs-toolchain != "" { " +" + rs-toolchain } else { "" }
 
-archs := 'linux/amd64,linux/arm64,linux/arm/v7'
+archs := 'linux/amd64,linux/arm64'
 
 # Check that the Rust code is formatted correctly.
 rs-check-fmt:
