@@ -67,13 +67,11 @@ const FIELD_MANAGER: &str = "kubectl-label";
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<()> {
     #[cfg(feature = "rustls-tls")]
+    if rustls::crypto::aws_lc_rs::default_provider()
+        .install_default()
+        .is_err()
     {
-        if rustls::crypto::aws_lc_rs::default_provider()
-            .install_default()
-            .is_err()
-        {
-            anyhow::bail!("No other crypto provider should be installed yet");
-        }
+        anyhow::bail!("No other crypto provider should be installed yet");
     }
 
     let Args {
