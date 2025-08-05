@@ -27,7 +27,7 @@ exceptions = [
         "ISC",
         "Apache-2.0",
         "OpenSSL"
-    ], name = "aws-lc-sys"}
+    ], name = "aws-lc-sys"},
 ]
 
 [[licenses.clarify]]
