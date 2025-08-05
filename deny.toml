@@ -48,6 +48,10 @@ skip = [
     { name = "thiserror", version = "1" },
     { name = "thiserror-impl", version = "1" },
 ]
+skip-tree = [
+    # socket v0.6 is still propagating through the ecosystem
+    { name = "socket2", version = "0.5" },
+]
 
 [sources]
 unknown-registry = "deny"
