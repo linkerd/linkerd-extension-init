@@ -12,6 +12,6 @@ jobs:
     timeout-minutes: 20
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-    - uses: linkerd/dev/actions/setup-tools@v48
+    - uses: linkerd/dev/actions/setup-tools@v49
     - run: just build
     - run: just integration-test
