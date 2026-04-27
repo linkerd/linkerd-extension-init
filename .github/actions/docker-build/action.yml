@@ -27,7 +27,7 @@ runs:
     - name: Configure cache
       shell: bash
       run: echo "DOCKER_BUILDKIT_CACHE=${{ runner.temp }}/.buildx-cache" >> $GITHUB_ENV
-    - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+    - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
       with:
         path: ${{ env.DOCKER_BUILDKIT_CACHE }}
         key: ${{ runner.os }}-buildx-linkerd-extension-init-${{ inputs.tag }}
