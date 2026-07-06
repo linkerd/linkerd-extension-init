@@ -88,7 +88,7 @@ integration-test:
     just-k3d create
     just-k3d kubectl create ns foobar
 
-    just-k3d kubectl apply --server-side -f	https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.5.1/experimental-install.yaml
+    just-k3d kubectl apply --server-side -f	https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/experimental-install.yaml
 
     linkerd install --crds | just-k3d kubectl apply -f -
     linkerd install | just-k3d kubectl apply -f -
