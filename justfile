@@ -10,6 +10,8 @@ rs-features := 'all'
 
 _cargo := "cargo" + if rs-toolchain != "" { " +" + rs-toolchain } else { "" }
 
+_k3d-flags := "--no-lb --k3s-arg --disable='local-storage,traefik,servicelb,metrics-server@server:*'"
+
 archs := 'linux/amd64,linux/arm64'
 
 # Check that the Rust code is formatted correctly.
@@ -82,10 +84,11 @@ integration-test:
     #!/usr/bin/env bash
     set -euo pipefail
 
-    scurl -sL https://run.linkerd.io/install | sh
+    scurl -sL https://run.linkerd.io/install-edge | sh
     export PATH=$PATH:/home/runner/.linkerd2/bin
 
-    just-k3d create
+    K3D_CREATE_FLAGS='{{ _k3d-flags }}' just-k3d create
+    just-k3d use
     just-k3d kubectl create ns foobar
 
     just-k3d kubectl apply --server-side -f	https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/experimental-install.yaml
