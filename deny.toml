@@ -62,7 +62,10 @@ skip-tree = [
 unknown-registry = "deny"
 unknown-git = "deny"
 allow-registry = ["https://github.com/rust-lang/crates.io-index"]
-allow-git = []
+allow-git = [
+    # We accept a git dependency upon linkerd-kubert.
+    "https://github.com/linkerd/linkerd-kubert.git"
+]
 
 [sources.allow-org]
 github = []
