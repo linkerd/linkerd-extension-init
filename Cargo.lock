@@ -750,14 +750,11 @@ dependencies = [
 
 [[package]]
 name = "kubert"
-version = "0.25.0"
-source = "git+https://github.com/linkerd/linkerd-kubert.git?tag=kubert%2Fv0.25.0#a2ff424f072a0de77d98ab97592d6f66ae1d9546"
+version = "0.26.0"
+source = "git+https://github.com/linkerd/linkerd-kubert.git?tag=kubert%2Fv0.26.0#cb414cccb5099a0246f4b9b3f298f66e1bf21318"
 dependencies = [
- "kube-client",
- "rustls-pemfile",
  "thiserror",
  "tokio",
- "tokio-rustls",
  "tracing",
  "tracing-subscriber",
 ]
