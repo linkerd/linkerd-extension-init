@@ -35,7 +35,7 @@ jobs:
       id-token: write # needed for signing the images with GitHub OIDC Token
     timeout-minutes: 30
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
     - name: Set tag
       run: echo 'TAG=${{ needs.tag.outputs.tag }}' >> "$GITHUB_ENV"
     - uses: ./.github/actions/docker-build
@@ -58,7 +58,7 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
     - uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b
       with:
         name: linkerd-extension-init ${{ needs.tag.outputs.tag }}
