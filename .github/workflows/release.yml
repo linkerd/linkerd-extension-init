@@ -59,6 +59,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-    - uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b
+    - uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228
       with:
         name: linkerd-extension-init ${{ needs.tag.outputs.tag }}
