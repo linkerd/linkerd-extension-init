@@ -15,6 +15,20 @@ updates:
           - "kube"
           - "kube-*"
           - "k8s-openapi"
+      # Listed before tokio so tokio-rustls lands here: a dependency
+      # joins the first group whose patterns it matches
+      tls:
+        patterns:
+          - "rustls"
+          - "rustls-*"
+          - "*-rustls"
+          - "webpki-roots"
+          - "ring"
+          - "aws-lc-rs"
+          - "openssl"
+          - "openssl-*"
+          - "native-tls"
+          - "*-native-tls"
       tokio:
         patterns:
           - "tokio"
