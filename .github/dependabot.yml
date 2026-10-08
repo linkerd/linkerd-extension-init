@@ -1,15 +1,52 @@
 version: 2
 updates:
-  - package-ecosystem: cargo
-    directory: /
+  # Highest priority: Rust dependencies
+  - package-ecosystem: "cargo"
+    directory: "/"
     schedule:
-      interval: daily
+      interval: "daily"
+    open-pull-requests-limit: 10
     allow:
-      - dependency-type: "all"
+      - dependency-type: "direct"
+    groups:
+      # kube and k8s-openapi must move together or the build breaks
+      kube:
+        patterns:
+          - "kube"
+          - "kube-*"
+          - "k8s-openapi"
+      tokio:
+        patterns:
+          - "tokio"
+          - "tokio-*"
+      cargo-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    labels:
+      - "dependencies"
+      - "rust"
 
-  - package-ecosystem: github-actions
-    directories:
-    - "/"
-    - ".github/actions/*"
+  # Medium priority: base images
+  - package-ecosystem: "docker"
+    directory: "/"
     schedule:
-      interval: daily
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "docker"
+
+  # Lowest priority: CI actions, batched into a single PR
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 2
+    groups:
+      actions:
+        patterns:
+          - "*"
+    labels:
+      - "dependencies"
+      - "ci"
