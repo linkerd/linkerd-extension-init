@@ -10,7 +10,7 @@ rs-features := 'all'
 
 _cargo := "cargo" + if rs-toolchain != "" { " +" + rs-toolchain } else { "" }
 
-_k3d-flags := "--no-lb --k3s-arg --disable='local-storage,traefik,servicelb,metrics-server@server:*'"
+_k3d-flags := "--no-lb --k3s-arg --disable='gateway-api-crd,local-storage,traefik,servicelb,metrics-server@server:*'"
 
 archs := 'linux/amd64,linux/arm64'
 
