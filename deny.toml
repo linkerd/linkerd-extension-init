@@ -8,7 +8,11 @@ targets = [
 db-path = "~/.cargo/advisory-db"
 db-urls = ["https://github.com/rustsec/advisory-db"]
 yanked = "deny"
-ignore = []
+ignore = [
+    # unsafe-libyaml is unmaintained; it comes in via serde_yaml, which kube-client
+    # still depends on.
+    { id = "RUSTSEC-2024-0449", reason = "transitive via kube-client serde_yaml" },
+]
 
 [licenses]
 allow = ["Apache-2.0", "ISC", "MIT", "BSD-3-Clause"]
