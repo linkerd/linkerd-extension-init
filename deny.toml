@@ -8,7 +8,11 @@ targets = [
 db-path = "~/.cargo/advisory-db"
 db-urls = ["https://github.com/rustsec/advisory-db"]
 yanked = "deny"
-ignore = []
+ignore = [
+    # unsafe-libyaml is unmaintained; it comes in via serde_yaml, which kube-client
+    # still depends on.
+    { id = "RUSTSEC-2024-0449", reason = "transitive via kube-client serde_yaml" },
+]
 
 [licenses]
 allow = ["Apache-2.0", "ISC", "MIT", "BSD-3-Clause"]
@@ -52,6 +56,8 @@ skip = [
     { name = "regex-syntax", version = "0.6" },
     { name = "thiserror", version = "1" },
     { name = "thiserror-impl", version = "1" },
+    # syn v3 is still propagating through the ecosystem. Remove once all deps are on syn v3.
+    { name = "syn", version = "2" },
 ]
 skip-tree = [
     # socket v0.6 is still propagating through the ecosystem
