@@ -10,7 +10,10 @@ rs-features := 'all'
 
 _cargo := "cargo" + if rs-toolchain != "" { " +" + rs-toolchain } else { "" }
 
-_k3d-flags := "--no-lb --k3s-arg --disable='local-storage,traefik,servicelb,metrics-server@server:*'"
+# Disable the Gateway API CRDs that k3s v1.37+ bundles (v1.6 standard) so the
+# integration test can install its own pinned experimental CRDs without
+# server-side apply conflicts with the k3s helm controller.
+_k3d-flags := "--no-lb --k3s-arg --disable='local-storage,traefik,servicelb,metrics-server,gateway-api-crd@server:*'"
 
 archs := 'linux/amd64,linux/arm64'
 
