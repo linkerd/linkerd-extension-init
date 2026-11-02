@@ -1,6 +1,6 @@
 {
 	"name": "linkerd-extension-init",
-	"image": "ghcr.io/linkerd/dev:v53",
+	"image": "ghcr.io/linkerd/dev:v54",
 	"extensions": [
 		"DavidAnson.vscode-markdownlint",
 		"kokakiwi.vscode-just",
