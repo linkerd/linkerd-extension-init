@@ -1,0 +1,31 @@
+name: Image
+
+# Builds the release Dockerfile for each published arch so cross-compile and
+# link failures (e.g. the arm64 musl C build) show up on PRs, not at release.
+on:
+  pull_request:
+    paths:
+      - Dockerfile
+      - Cargo.lock
+      - Cargo.toml
+      - justfile
+      - src/**
+      - .github/workflows/image.yml
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [amd64, arm64]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      # The builder stage runs on $BUILDPLATFORM and cross-compiles, so no QEMU
+      # is needed; the arm64 runtime stage only copies the binary.
+      - uses: docker/setup-buildx-action@594f3bf4285d9ea8dc53c9a0c9c4092420091003
+      - run: docker buildx build . --platform linux/${{ matrix.arch }}
