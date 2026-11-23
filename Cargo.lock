@@ -703,8 +703,8 @@ dependencies = [
 
 [[package]]
 name = "kubert"
-version = "0.26.0"
-source = "git+https://github.com/linkerd/linkerd-kubert.git?tag=kubert%2Fv0.26.0#cb414cccb5099a0246f4b9b3f298f66e1bf21318"
+version = "0.27.1"
+source = "git+https://github.com/linkerd/linkerd-kubert.git?tag=kubert%2Fv0.27.1#5e6a733d04781673832ed0ce0874b8a4adeeea2f"
 dependencies = [
  "thiserror",
  "tokio",
